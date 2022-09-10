@@ -30,21 +30,22 @@ class Product(models.Model):
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 
-    class ProductImage(models.Model):
-        image = models.ImageField(upload_to='product_image')
-        product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='images')
 
-        def __str__(self):
-            return str(self.image)
+class ProductImage(models.Model):
+    image = models.ImageField(upload_to='product_image')
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='images')
+
+    def __str__(self):
+        return str(self.image)
 
 
-    class Category(models.Model):
-        name = models.CharField(max_length=100)
-        products = models.ManyToManyField('Product', related_name='categories')
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    products = models.ManyToManyField('Product', related_name='categories')
 
-        def __str__(self):
-            return self.name
+    def __str__(self):
+        return self.name
 
-        class Meta:
-            verbose_name_plural = 'Categories'
-            ordering = ('name',)
+    class Meta:
+        verbose_name_plural = 'Categories'
+        ordering = ('name',)
